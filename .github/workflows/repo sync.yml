@@ -1,0 +1,53 @@
+name: Sync Kernel Source and Build Upload
+
+on:
+  push:
+    branches:
+      - main  # 可以根据实际情况修改触发此工作流的分支，这里以main为例
+
+jobs:
+  sync_kernel_source_and_build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Install Repo Tool
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y repo
+
+    - name: Sync Kernel Source
+      run: |
+        repo init -u https://android.googlesource.com/kernel/manifest
+        curl -o kernel_manifest.xml https://storage.googleapis.com/android-build/builds/aosp_kernel-common-android12-5.10-2024-08-linux-kernel_aarch64/12649728/87ef531ccfc9b8ef83ac994b485b626b5df94a056671cee60a79c81903b34fa0/manifest_12649728.xml?GoogleAccessId=gcs-sign%40android-builds-project.google.com.iam.gserviceaccount.com&Expires=1732472542&Signature=ReLulQ%2BejYIa0hyvavQpUnj1e2AKjNj6Hlh9PF6qVc9CQGObfIpkwBBVBduR2CG%2BU21HK4GVvfS221JDUPv8I4IWhcqua1PugorxXHY2LtnaEBT3%2BPqvrJFqL2qIFiMea%2FFi8AjlfyXppAiY%2FDEjhTbIsIbPX3RlD95Zn7rtjhcLMaQ2c6nVC4TPc9f0%2FBXYtiWRdlt71BO7upYgUo0k2C%2B7KTg0oAdIFA3a2AIlmpMJoGz%2F4JJgYOs6PI1pCtbSMAm0URKs7BlTCpXCG%2FXsxOCv2PjCjOhCbpEjft9HrmzzRAJJlRD92WOnS43OghhKV9NwPxZXXGwaqtHFHNEqCg%3D%3D&response-content-disposition=attachment
+        mv <kernel_manifest.xml>.repo/manifests
+        repo init -m manifest.xml
+        repo sync
+
+    - name: Set Build Environment Variables
+      run: |
+        export LTO=thin
+        export BUILD_CONFIG=common/build.config.gki.aarch64
+
+    - name: Build Kernel
+      run: |
+        cd build
+        bash build.sh
+
+    - name: Create Upload Folder
+      run: |
+        mkdir kernel_upload_folder
+
+    - name: Move Files to Upload Folder
+      run: |
+        cp -r./* kernel_upload_folder/  # 将当前目录下的所有文件和子目录复制到新建的文件夹中
+        # 这里假设你想要排除一些不必要的文件或目录，可以根据实际情况添加相应的排除条件
+        # 例如，如果要排除.git目录，可以使用：cp -r --exclude=.git./* kernel_upload_folder/
+
+    - name: Upload Entire Folder to Repository
+      uses: actions/upload-artifact@v3
+      with:
+        name: kernel_upload_folder
+        path: kernel_upload_folder

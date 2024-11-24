@@ -15,12 +15,17 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y repo
+        
+    - name: Get kernel_manifest.xml from Repository Folder
+      run: |
+        cp kernel_manifest/kernel_manifest.xml kernel_manifest.xml
+        # 例如，如果kernel_manifest.xml在仓库的kernels文件夹下，可替换为：
+        # cp kernels/kernel_manifest.xml kernel_manifest.xml
 
     - name: Sync Kernel Source
       run: |
         repo init -u https://android.googlesource.com/kernel/manifest
-        curl -o kernel_manifest.xml https://down.allmath.top/d/Onedrive/Personal/manifest_12649728.xml?sign=0aNBMuSLLN1JiThcbb66eSNduM_OF3ABNdj27medfKk=:0
-        mv kernel_manifest.xml  .repo/manifests
+        mv kernel_manifest.xml .repo/manifests
         repo init -m kernel_manifest.xml
         repo sync
 

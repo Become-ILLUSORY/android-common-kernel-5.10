@@ -45,9 +45,8 @@ jobs:
 
     - name: Move Files to Upload Folder
       run: |
-        cp -r./* kernel_upload_folder/  # 将当前目录下的所有文件和子目录复制到新建的文件夹中
-        # 这里假设你想要排除一些不必要的文件或目录，可以根据实际情况添加相应的排除条件
-        # 例如，如果要排除.git目录，可以使用：cp -r --exclude=.git./* kernel_upload_folder/
+        cp -r --exclude=.git. kernel_upload_folder/
+
 
     - name: Upload Entire Folder to Repository
       uses: actions/upload-artifact@v3

@@ -1,9 +1,7 @@
 name: Sync Kernel Source and Build Upload
 
 on:
-  push:
-    branches:
-      - main  # 可以根据实际情况修改触发此工作流的分支，这里以main为例
+  workflow_dispatch:
 
 jobs:
   sync_kernel_source_and_build:

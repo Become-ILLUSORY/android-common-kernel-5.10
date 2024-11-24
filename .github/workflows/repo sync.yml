@@ -29,15 +29,15 @@ jobs:
         repo init -m kernel_manifest.xml
         repo sync
 
-    - name: Set Build Environment Variables
-      run: |
-        export LTO=thin
-        export BUILD_CONFIG=common/build.config.gki.aarch64
+    # - name: Set Build Environment Variables
+    #   run: |
+    #     export LTO=thin
+    #     export BUILD_CONFIG=common/build.config.gki.aarch64
 
-    - name: Build Kernel
-      run: |
-        cd build
-        bash build.sh
+    # - name: Build Kernel
+    #   run: |
+    #     cd build
+    #     bash build.sh
 
     - name: Create Upload Folder
       run: |

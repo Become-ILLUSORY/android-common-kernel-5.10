@@ -23,7 +23,7 @@ jobs:
         repo init -u https://android.googlesource.com/kernel/manifest
         curl -o kernel_manifest.xml https://down.allmath.top/d/Onedrive/Personal/manifest_12649728.xml?sign=0aNBMuSLLN1JiThcbb66eSNduM_OF3ABNdj27medfKk=:0
         mv kernel_manifest.xml  .repo/manifests
-        repo init -m manifest.xml
+        repo init -m kernel_manifest.xml
         repo sync
 
     - name: Set Build Environment Variables

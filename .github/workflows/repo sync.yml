@@ -27,7 +27,7 @@ jobs:
         repo init -u https://android.googlesource.com/kernel/manifest
         mv kernel_manifest.xml .repo/manifests
         repo init -m kernel_manifest.xml
-        repo sync
+        repo sync -j42
 
     # - name: Set Build Environment Variables
     #   run: |
@@ -39,17 +39,11 @@ jobs:
     #     cd build
     #     bash build.sh
 
-    - name: Create Upload Folder
-      run: |
-        mkdir kernel_upload_folder
 
-    - name: Move Files to Upload Folder
-      run: |
-        cp -r --exclude=.git. kernel_upload_folder/
 
 
     - name: Upload Entire Folder to Repository
       uses: actions/upload-artifact@v3
       with:
         name: kernel_upload_folder
-        path: kernel_upload_folder
+        path: /home/runner/work/android-common-kernel-5.10/android-common-kernel-5.10

@@ -22,7 +22,7 @@ jobs:
       run: |
         repo init -u https://android.googlesource.com/kernel/manifest
         curl -o kernel_manifest.xml https://storage.googleapis.com/android-build/builds/aosp_kernel-common-android12-5.10-2024-08-linux-kernel_aarch64/12649728/87ef531ccfc9b8ef83ac994b485b626b5df94a056671cee60a79c81903b34fa0/manifest_12649728.xml?GoogleAccessId=gcs-sign%40android-builds-project.google.com.iam.gserviceaccount.com&Expires=1732472542&Signature=ReLulQ%2BejYIa0hyvavQpUnj1e2AKjNj6Hlh9PF6qVc9CQGObfIpkwBBVBduR2CG%2BU21HK4GVvfS221JDUPv8I4IWhcqua1PugorxXHY2LtnaEBT3%2BPqvrJFqL2qIFiMea%2FFi8AjlfyXppAiY%2FDEjhTbIsIbPX3RlD95Zn7rtjhcLMaQ2c6nVC4TPc9f0%2FBXYtiWRdlt71BO7upYgUo0k2C%2B7KTg0oAdIFA3a2AIlmpMJoGz%2F4JJgYOs6PI1pCtbSMAm0URKs7BlTCpXCG%2FXsxOCv2PjCjOhCbpEjft9HrmzzRAJJlRD92WOnS43OghhKV9NwPxZXXGwaqtHFHNEqCg%3D%3D&response-content-disposition=attachment
-        mv <kernel_manifest.xml>.repo/manifests
+        mv kernel_manifest.xml  .repo/manifests
         repo init -m manifest.xml
         repo sync
 
